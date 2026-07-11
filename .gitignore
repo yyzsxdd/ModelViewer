@@ -13,6 +13,10 @@ CMakeFiles/
 cmake_install.cmake
 CMakeUserPresets.json
 
+# ================= 第三方库 =================
+# 以下排除规则确保 thirdParty 内的 .dll / .lib 不会被忽略
+!thirdParty/**
+
 # ================= Visual Studio =================
 .vs/
 *.vcxproj
@@ -48,9 +52,7 @@ qrc_*.cpp
 *.ipdb
 
 # ================= VS Code =================
-.vscode/settings.json
-.vscode/tasks.json
-.vscode/launch.json
+.vscode/
 
 # ================= 其他 =================
 *.DS_Store
