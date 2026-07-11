@@ -16,6 +16,8 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdParty/glew/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdParty/opencascade/include)
+include_directories(${CMAKE_SOURCE_DIR}/thirdParty/glm/include)
+include_directories(${CMAKE_SOURCE_DIR}/thirdParty/imgui/include)
 
 # GLEW 库路径（动态链接）
 set(GLEW_LIB ${CMAKE_SOURCE_DIR}/thirdParty/glew/lib/x64/glew32.lib)
@@ -43,6 +45,11 @@ set(OCC_LIBS
 set(SOURCES
     src/main.cpp
     src/mainwin.cpp
+    thirdParty/imgui/src/imgui.cpp
+    thirdParty/imgui/src/imgui_draw.cpp
+    thirdParty/imgui/src/imgui_tables.cpp
+    thirdParty/imgui/src/imgui_widgets.cpp
+    thirdParty/imgui/src/imgui_impl_opengl3.cpp
 )
 
 set(HEADERS
