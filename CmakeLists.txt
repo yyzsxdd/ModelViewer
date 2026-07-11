@@ -9,11 +9,36 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/resource/ui)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_NAME}/bin)
 
-set(QT5_PATH "D:/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5")
-set(CMAKE_PREFIX_PATH ${QT5_PATH})
+# Qt 自动查找，如未找到请通过命令行指定路径：
+#   cmake -DCMAKE_PREFIX_PATH=D:/Qt/Qt5.14.2/5.14.2/msvc2017_64 ..
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/thirdParty/glew/include)
+include_directories(${CMAKE_SOURCE_DIR}/thirdParty/opencascade/include)
+
+# GLEW 库路径（动态链接）
+set(GLEW_LIB ${CMAKE_SOURCE_DIR}/thirdParty/glew/lib/x64/glew32.lib)
+set(GLEW_DLL ${CMAKE_SOURCE_DIR}/thirdParty/glew/bin/x64/glew32.dll)
+
+# OpenCASCADE 7.6 — STEP 解析所需模块
+set(OCC_LIB_DIR ${CMAKE_SOURCE_DIR}/thirdParty/opencascade/lib)
+set(OCC_DLL_DIR ${CMAKE_SOURCE_DIR}/thirdParty/opencascade/bin)
+set(OCC_LIBS
+    ${OCC_LIB_DIR}/TKernel.lib
+    ${OCC_LIB_DIR}/TKMath.lib
+    ${OCC_LIB_DIR}/TKG2d.lib
+    ${OCC_LIB_DIR}/TKG3d.lib
+    ${OCC_LIB_DIR}/TKGeomBase.lib
+    ${OCC_LIB_DIR}/TKGeomAlgo.lib
+    ${OCC_LIB_DIR}/TKBRep.lib
+    ${OCC_LIB_DIR}/TKTopAlgo.lib
+    ${OCC_LIB_DIR}/TKSTEP.lib
+    ${OCC_LIB_DIR}/TKSTEPBase.lib
+    ${OCC_LIB_DIR}/TKSTEP209.lib
+    ${OCC_LIB_DIR}/TKSTEPAttr.lib
+    ${OCC_LIB_DIR}/TKXSBase.lib
+)
 
 set(SOURCES
     src/main.cpp
@@ -31,19 +56,17 @@ add_executable(${PROJECT_NAME}
     resource/ui/qtcmake.ui
 )
 
-target_link_libraries(${PROJECT_NAME}  Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME}  Qt5::Widgets ${GLEW_LIB} ${OCC_LIBS})
 
-#set(Qt5_DIR D:/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5)
+# 构建后将 DLL 拷贝到可执行文件目录
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${GLEW_DLL} $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
 
-#D:/Qt/Qt5.14.2/5.14.2/mingw73_64/lib/cmake/Qt5
-#D:\Qt\Qt5.14.2\5.14.2\msvc2017_64\lib\cmake\Qt5\Qt5Config.cmake 
-#   这就是qt5Dir的位置 也就是Qt5Config.cmake所在的位置
-
-# 打包工具windeployqt.exe 将需要的dll文件拷贝过来
-#D:\Qt\Qt5.14.2\5.14.2\msvc2017_64\bin\windeployqt qt_cmake.exe
-
-# find_package(Qt5 COMPONENTS Widgets REQUIRED)
-# target_link_libraries(${PROJECT_NAME} 
-# Qt5::Widgets
-# )
-# build\qt_cmake/bin\Debug\qt_cmake.exe
+# 拷贝 OpenCASCADE 运行时 DLL
+file(GLOB OCC_DLLS "${OCC_DLL_DIR}/*.dll")
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${OCC_DLLS} $<TARGET_FILE_DIR:${PROJECT_NAME}>
+)
