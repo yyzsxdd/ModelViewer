@@ -44,7 +44,7 @@ set(OCC_LIBS
 
 set(SOURCES
     src/main.cpp
-    src/mainwin.cpp
+    src/modelviewer.cpp
     thirdParty/imgui/src/imgui.cpp
     thirdParty/imgui/src/imgui_draw.cpp
     thirdParty/imgui/src/imgui_tables.cpp
@@ -53,7 +53,7 @@ set(SOURCES
 )
 
 set(HEADERS
-    include/mainwin.h
+    include/modelviewer.h
 )
 
 add_executable(${PROJECT_NAME} 
