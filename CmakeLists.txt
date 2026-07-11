@@ -5,6 +5,7 @@ project(qt_cmake)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/resource/ui)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_NAME}/bin)
 
@@ -12,12 +13,23 @@ set(QT5_PATH "D:/Qt/Qt5.14.2/5.14.2/msvc2017_64/lib/cmake/Qt5")
 set(CMAKE_PREFIX_PATH ${QT5_PATH})
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+set(SOURCES
+    src/main.cpp
+    src/mainwin.cpp
+)
+
+set(HEADERS
+    include/mainwin.h
+)
+
 add_executable(${PROJECT_NAME} 
     WIN32
- main.cpp 
- mainwin.cpp
- qtcmake.ui
- )
+    ${SOURCES}
+    ${HEADERS}
+    resource/ui/qtcmake.ui
+)
 
 target_link_libraries(${PROJECT_NAME}  Qt5::Widgets)
 
