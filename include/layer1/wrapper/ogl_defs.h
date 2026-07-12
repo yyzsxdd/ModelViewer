@@ -17,6 +17,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <algorithm>
+#include <memory>
 #include <array>
 #include <cstring>
 

@@ -10,6 +10,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ${CMAKE_SOURCE_DIR}/resource/ui)
 
+# 屏蔽 MSVC C4819 警告（文件含当前代码页无法表示的字符）
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/wd4819>" "$<$<CXX_COMPILER_ID:MSVC>:/wd4819>")
+
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_NAME}/bin)
 
 # Qt 自动查找，如未找到请通过命令行指定路径：
