@@ -1,5 +1,7 @@
 #include "widget/OglWidget.h"
 
+#include <pcl/io/pcd_io.h>
+
 OglWidget::OglWidget(QWidget *parent)
     : QOpenGLWidget(parent)
 {
