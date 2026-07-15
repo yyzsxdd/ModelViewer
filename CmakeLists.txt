@@ -35,6 +35,7 @@ include_directories(${CMAKE_SOURCE_DIR}/thirdParty/glew/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdParty/opencascade/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdParty/glm/include)
 include_directories(${CMAKE_SOURCE_DIR}/thirdParty/imgui/include)
+include_directories(${CMAKE_SOURCE_DIR}/thirdParty)
 
 # PCL 1.15.1 — 点云 IO 模块
 set(PCL_ROOT ${CMAKE_SOURCE_DIR}/thirdParty/pcl)
@@ -106,7 +107,7 @@ add_executable(${PROJECT_NAME}
     ${SOURCES}
     ${HEADERS}
     ${UI_FILES}
-)
+  "src/layer1/math/BVHTree.cpp" "src/layer1/math/Plane.cpp" "include/layer1/math/BVHTree.h" "include/layer1/math/Color.h" "include/layer1/math/Frustum.h" "include/layer1/math/MathDefs.h" "include/layer1/math/Plane.h" "include/layer1/math/Ray.h" "include/layer1/math/Rect.h" "src/layer1/math/Utils.cpp" "include/layer1/math/Utils.h" "include/layer1/math/Viewport.h" "thirdParty/stb_image/stb_image.h")
 
 target_link_libraries(${PROJECT_NAME}  Qt5::Widgets ${GLEW_LIB} opengl32 ${OCC_LIBS} ${PCL_LIBS} ${PCL_3RDPARTY_LIBS})
 
